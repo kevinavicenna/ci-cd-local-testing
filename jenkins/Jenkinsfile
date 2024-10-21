@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build -t $IMAGE_NAME ./app'
+                    sh 'sudo docker build -t $IMAGE_NAME ./app'
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh 'docker run --rm $IMAGE_NAME npm test'
+                    sh 'sudo docker run --rm $IMAGE_NAME npm test'
                 }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 script {
-                    sh 'docker push $IMAGE_NAME'
+                    sh 'sudo docker push $IMAGE_NAME'
                 }
             }
         }
@@ -47,10 +47,10 @@ pipeline {
                 script {
                     //stop previous session & Run the new container
                     sh '''
-                    docker stop my-nodejs-app || true
-                    docker rm my-nodejs-app || true
+                    sudo docker stop my-nodejs-app || true
+                    sudo docker rm my-nodejs-app || true
                     '''
-                    sh 'docker run -d --name my-nodejs-app -p 3000:3000 $IMAGE_NAME'
+                    sh 'sudo docker run -d --name my-nodejs-app -p 3000:3000 $IMAGE_NAME'
                 }
             }
         }
