@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        GIT_CREDENTIALS = 'my-github-credentials' 
         DOCKER_REGISTRY = '192.168.100.192:5000'
         IMAGE_NAME = "${DOCKER_REGISTRY}/sample-nodejs-app"
     }
@@ -9,7 +10,11 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/kevinavicenna/ci-cd-local-testing.git'
+                git(
+                    url: 'https://github.com/kevinavicenna/ci-cd-local-testing.git',
+                    credentialsId: "${GIT_CREDENTIALS}",
+                    branch: 'main'
+                )
             }
         }
 
