@@ -1,12 +1,10 @@
 const request = require('supertest');
 const app = require('../index');
-const { describe } = require('node:test');
 
-describe('GET /', () =>{
-    if('should return hello world', (done) =>{
-        request(app)
-            .get('/')
-            .expect(200)
-            .expect('Hello World', done);
+describe('GET /', () => {
+    it('should return Hello World', async () => {
+        const response = await request(app).get('/');
+        expect(response.status).toBe(200);
+        expect(response.text).toBe('Hello World');
     });
 });
